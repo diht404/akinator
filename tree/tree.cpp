@@ -22,14 +22,14 @@ size_t treeDump(Tree *tree)
     CHECK_NULLPTR_ERROR(tree, TREE_IS_NULLPTR)
 
     char filename[128] = "logs.html";
-    char photo_name[128] = "";
+    char photo_name[128] = "log.jpg";
 
-    FILE *fp = fopen(filename, "a");
+    FILE *fp = fopen(filename, "w");
 
     fprintf(fp, "<pre>\n");
 
     createGraph(tree, photo_name);
-    fprintf(fp, "<img height=200 src=%s />\n", photo_name);
+    fprintf(fp, "<img src=%s />\n", photo_name);
 
     fclose(fp);
 }

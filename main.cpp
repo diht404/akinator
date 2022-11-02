@@ -21,5 +21,8 @@ int main()
     nodeDump(tree.root->left->left, "left left");
     nodeDump(tree.root->left->right, "left right");
     nodeDump(tree.root->right, "right root");
+    nodeDump(tree.root->right->left, "right left");
+    nodeDump(tree.root->right->right, "right right");
+    treeDump(&tree);
     return 0;
 }

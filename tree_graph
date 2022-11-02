@@ -1,0 +1,45 @@
+digraph TREE {
+    rankdir=LR;
+    node_0x55611d755500[shape="record", 
+        fillcolor="#6be871", 
+        style="rounded, filled", 
+        label="
+            VALUE = Is it alive |
+            {{LEFT | 0x55611d755540} | {INDEX | 0x55611d755500} | {RIGHT | 0x55611d755600}}"]
+    node_0x55611d755540[shape="record", 
+        fillcolor="#6be871", 
+        style="rounded, filled", 
+        label="
+            VALUE = DIHT |
+            {{LEFT | 0x55611d755580} | {INDEX | 0x55611d755540} | {RIGHT | 0x55611d7555c0}}"]
+    node_0x55611d755580[shape="record", 
+        fillcolor="#6be871", 
+        style="rounded, filled", 
+        label="
+            VALUE = 404 |
+            {{LEFT | (nil)} | {INDEX | 0x55611d755580} | {RIGHT | (nil)}}"]
+    node_0x55611d7555c0[shape="record", 
+        fillcolor="#6be871", 
+        style="rounded, filled", 
+        label="
+            VALUE = 666 |
+            {{LEFT | (nil)} | {INDEX | 0x55611d7555c0} | {RIGHT | (nil)}}"]
+    node_0x55611d755600[shape="record", 
+        fillcolor="#6be871", 
+        style="rounded, filled", 
+        label="
+            VALUE = DGAP |
+            {{LEFT | 0x55611d755640} | {INDEX | 0x55611d755600} | {RIGHT | 0x55611d755680}}"]
+    node_0x55611d755640[shape="record", 
+        fillcolor="#6be871", 
+        style="rounded, filled", 
+        label="
+            VALUE = 200 |
+            {{LEFT | (nil)} | {INDEX | 0x55611d755640} | {RIGHT | (nil)}}"]
+    node_0x55611d755680[shape="record", 
+        fillcolor="#6be871", 
+        style="rounded, filled", 
+        label="
+            VALUE = 300 |
+            {{LEFT | (nil)} | {INDEX | 0x55611d755680} | {RIGHT | (nil)}}"]
+    node_0x55611d755500->node_0x55611d755540;    node_0x55611d755540->node_0x55611d755580;    node_0x55611d755540->node_0x55611d7555c0;    node_0x55611d755500->node_0x55611d755600;    node_0x55611d755600->node_0x55611d755640;    node_0x55611d755600->node_0x55611d755680;}
