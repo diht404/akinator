@@ -33,6 +33,8 @@ enum TreeErrors
 
 size_t treeCtor(Tree *tree);
 
+size_t nodeCtor(Node *node);
+
 size_t treeDtor(Tree *tree);
 
 size_t nodeDtor(Node *node);
@@ -56,6 +58,12 @@ size_t nodePostOrderPrint(Node *node);
 size_t readTree(Tree *tree, const char *filename);
 
 size_t addNode(Tree *tree, Node *node, char **buffer, char **readPtr, long lenOfFile);
+
+size_t insertNode(Node *node,
+                  char *value,
+                  size_t value_size,
+                  char *delimiter,
+                  size_t delimiter_size);
 
 #define CHECK_NULLPTR_ERROR(value, error) \
     {                                     \

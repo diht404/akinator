@@ -1,57 +1,81 @@
 digraph TREE {
     rankdir=TB;
-    node_0x564c4a6ef560[shape="record", 
+    node_0x557bf141e5a0[shape="record", 
         color="#6be871",        fillcolor="#caf2d4", 
         style="rounded, filled", 
         label="
             {Alive? |
-            {{LEFT | 0x564c4a6ef5a0} | {INDEX | 0x564c4a6ef560} | {RIGHT | 0x564c4a6ef660}}}"]
-    node_0x564c4a6ef5a0[shape="record", 
+            {{LEFT | 0x557bf141e5e0} | {INDEX | 0x557bf141e5a0} | {RIGHT | 0x557bf141e6a0}}}"]
+    node_0x557bf141e5e0[shape="record", 
         color="#6be871",        fillcolor="#caf2d4", 
         style="rounded, filled", 
         label="
             {Cat? |
-            {{LEFT | 0x564c4a6ef5e0} | {INDEX | 0x564c4a6ef5a0} | {RIGHT | 0x564c4a6ef620}}}"]
-    node_0x564c4a6ef5e0[shape="record", 
+            {{LEFT | 0x557bf141e620} | {INDEX | 0x557bf141e5e0} | {RIGHT | 0x557bf141e660}}}"]
+    node_0x557bf141e620[shape="record", 
         color="#6be871",        fillcolor="#caf2d4", 
         style="rounded, filled", 
         label="
             {1.5? |
-            {{LEFT | (nil)} | {INDEX | 0x564c4a6ef5e0} | {RIGHT | (nil)}}}"]
-    node_0x564c4a6ef620[shape="record", 
+            {{LEFT | (nil)} | {INDEX | 0x557bf141e620} | {RIGHT | (nil)}}}"]
+    node_0x557bf141e660[shape="record", 
         color="#6be871",        fillcolor="#caf2d4", 
         style="rounded, filled", 
         label="
             {DBMP? |
-            {{LEFT | (nil)} | {INDEX | 0x564c4a6ef620} | {RIGHT | (nil)}}}"]
-    node_0x564c4a6ef660[shape="record", 
+            {{LEFT | (nil)} | {INDEX | 0x557bf141e660} | {RIGHT | (nil)}}}"]
+    node_0x557bf141e6a0[shape="record", 
         color="#6be871",        fillcolor="#caf2d4", 
         style="rounded, filled", 
         label="
             {DGAP? |
-            {{LEFT | 0x564c4a6ef6a0} | {INDEX | 0x564c4a6ef660} | {RIGHT | 0x564c4a6ef770}}}"]
-    node_0x564c4a6ef6a0[shape="record", 
+            {{LEFT | 0x557bf141e6e0} | {INDEX | 0x557bf141e6a0} | {RIGHT | 0x557bf141e7b0}}}"]
+    node_0x557bf141e6e0[shape="record", 
         color="#6be871",        fillcolor="#caf2d4", 
         style="rounded, filled", 
         label="
             {Expelled? |
-            {{LEFT | 0x564c4a6ef6e0} | {INDEX | 0x564c4a6ef6a0} | {RIGHT | 0x564c4a6ef720}}}"]
-    node_0x564c4a6ef6e0[shape="record", 
+            {{LEFT | 0x557bf141e720} | {INDEX | 0x557bf141e6e0} | {RIGHT | 0x557bf141e760}}}"]
+    node_0x557bf141e720[shape="record", 
         color="#6be871",        fillcolor="#caf2d4", 
         style="rounded, filled", 
         label="
             {200? |
-            {{LEFT | (nil)} | {INDEX | 0x564c4a6ef6e0} | {RIGHT | (nil)}}}"]
-    node_0x564c4a6ef720[shape="record", 
+            {{LEFT | (nil)} | {INDEX | 0x557bf141e720} | {RIGHT | (nil)}}}"]
+    node_0x557bf141e760[shape="record", 
         color="#6be871",        fillcolor="#caf2d4", 
         style="rounded, filled", 
         label="
             {Transferred to another department? |
-            {{LEFT | (nil)} | {INDEX | 0x564c4a6ef720} | {RIGHT | (nil)}}}"]
-    node_0x564c4a6ef770[shape="record", 
+            {{LEFT | (nil)} | {INDEX | 0x557bf141e760} | {RIGHT | (nil)}}}"]
+    node_0x557bf141e7b0[shape="record", 
+        color="#6be871",        fillcolor="#caf2d4", 
+        style="rounded, filled", 
+        label="
+            {gvy ggu? |
+            {{LEFT | 0x557bf141e7f0} | {INDEX | 0x557bf141e7b0} | {RIGHT | 0x557bf141e830}}}"]
+    node_0x557bf141e7f0[shape="record", 
+        color="#6be871",        fillcolor="#caf2d4", 
+        style="rounded, filled", 
+        label="
+            {kgkgk? |
+            {{LEFT | (nil)} | {INDEX | 0x557bf141e7f0} | {RIGHT | (nil)}}}"]
+    node_0x557bf141e830[shape="record", 
+        color="#6be871",        fillcolor="#caf2d4", 
+        style="rounded, filled", 
+        label="
+            {kgkgkjhllhl? |
+            {{LEFT | 0x557bf141f090} | {INDEX | 0x557bf141e830} | {RIGHT | 0x557bf141f0b0}}}"]
+    node_0x557bf141f090[shape="record", 
+        color="#6be871",        fillcolor="#caf2d4", 
+        style="rounded, filled", 
+        label="
+            {kgkgk? |
+            {{LEFT | (nil)} | {INDEX | 0x557bf141f090} | {RIGHT | (nil)}}}"]
+    node_0x557bf141f0b0[shape="record", 
         color="#6be871",        fillcolor="#caf2d4", 
         style="rounded, filled", 
         label="
             {DIHT? |
-            {{LEFT | (nil)} | {INDEX | 0x564c4a6ef770} | {RIGHT | (nil)}}}"]
-    node_0x564c4a6ef560->node_0x564c4a6ef5a0[label="YES", color="#a66be8", fontcolor="#6be871"];    node_0x564c4a6ef5a0->node_0x564c4a6ef5e0[label="YES", color="#a66be8", fontcolor="#6be871"];    node_0x564c4a6ef5a0->node_0x564c4a6ef620[label="NO",  color="#a66be8", fontcolor="#e87b6b"];    node_0x564c4a6ef560->node_0x564c4a6ef660[label="NO",  color="#a66be8", fontcolor="#e87b6b"];    node_0x564c4a6ef660->node_0x564c4a6ef6a0[label="YES", color="#a66be8", fontcolor="#6be871"];    node_0x564c4a6ef6a0->node_0x564c4a6ef6e0[label="YES", color="#a66be8", fontcolor="#6be871"];    node_0x564c4a6ef6a0->node_0x564c4a6ef720[label="NO",  color="#a66be8", fontcolor="#e87b6b"];    node_0x564c4a6ef660->node_0x564c4a6ef770[label="NO",  color="#a66be8", fontcolor="#e87b6b"];}
+            {{LEFT | (nil)} | {INDEX | 0x557bf141f0b0} | {RIGHT | (nil)}}}"]
+    node_0x557bf141e5a0->node_0x557bf141e5e0[label="YES", color="#a66be8", fontcolor="#6be871"];    node_0x557bf141e5e0->node_0x557bf141e620[label="YES", color="#a66be8", fontcolor="#6be871"];    node_0x557bf141e5e0->node_0x557bf141e660[label="NO",  color="#a66be8", fontcolor="#e87b6b"];    node_0x557bf141e5a0->node_0x557bf141e6a0[label="NO",  color="#a66be8", fontcolor="#e87b6b"];    node_0x557bf141e6a0->node_0x557bf141e6e0[label="YES", color="#a66be8", fontcolor="#6be871"];    node_0x557bf141e6e0->node_0x557bf141e720[label="YES", color="#a66be8", fontcolor="#6be871"];    node_0x557bf141e6e0->node_0x557bf141e760[label="NO",  color="#a66be8", fontcolor="#e87b6b"];    node_0x557bf141e6a0->node_0x557bf141e7b0[label="NO",  color="#a66be8", fontcolor="#e87b6b"];    node_0x557bf141e7b0->node_0x557bf141e7f0[label="YES", color="#a66be8", fontcolor="#6be871"];    node_0x557bf141e7b0->node_0x557bf141e830[label="NO",  color="#a66be8", fontcolor="#e87b6b"];    node_0x557bf141e830->node_0x557bf141f090[label="YES", color="#a66be8", fontcolor="#6be871"];    node_0x557bf141e830->node_0x557bf141f0b0[label="NO",  color="#a66be8", fontcolor="#e87b6b"];}

@@ -9,6 +9,16 @@ size_t treeCtor(Tree *tree)
     return TREE_NO_ERRORS;
 }
 
+size_t nodeCtor(Node *node)
+{
+    CHECK_NULLPTR_ERROR(node, NODE_IS_NULLPTR)
+
+    node->left = nullptr;
+    node->right = nullptr;
+
+    return TREE_NO_ERRORS;
+}
+
 size_t treeDtor(Tree *tree)
 {
     CHECK_NULLPTR_ERROR(tree, TREE_IS_NULLPTR)
@@ -371,5 +381,31 @@ size_t addNode(Tree *tree,
             (*readPtr)++;
         }
     }
+    return TREE_NO_ERRORS;
+}
+
+size_t insertNode(Node *node,
+                  char *value,
+                  size_t value_size,
+                  char *delimiter,
+                  size_t delimiter_size)
+{
+    CHECK_NULLPTR_ERROR(node, NODE_IS_NULLPTR)
+
+    node->left = (Node *) calloc(1, sizeof(Node));
+    CHECK_NULLPTR_ERROR(node->left, CANT_ALLOCATE_MEMORY)
+    nodeCtor(node->left);
+
+    node->right = (Node *) calloc(1, sizeof(Node));
+    CHECK_NULLPTR_ERROR(node->right, CANT_ALLOCATE_MEMORY)
+    nodeCtor(node->right);
+
+    node->right->value = node->value;
+
+    node->left->value = (char *) calloc(1, value_size);
+    memcpy(node->left->value, value, value_size);
+    node->value = (char *) calloc(1, delimiter_size);
+    memcpy(node->value, delimiter, delimiter_size);
+
     return TREE_NO_ERRORS;
 }

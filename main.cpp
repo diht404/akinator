@@ -6,6 +6,9 @@ int main()
     const char *tree_filename = "tree.txt";
     treeCtor(&tree);
     readTree(&tree, tree_filename);
+
+    treeGuessing(&tree);
+
     treeDump(&tree);
     FILE *fp = fopen(tree_filename, "w");
     treePrint(&tree, fp);

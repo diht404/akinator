@@ -7,4 +7,12 @@
 
 #include "tree/tree.h"
 
+const size_t BUFFER_SIZE = 128;
+
+size_t treeGuessing(Tree *tree);
+
+size_t gets(char *s);
+
+int skipUnusedSymbols();
+
 #endif //AKINATOR__AKINATOR_H
