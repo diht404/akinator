@@ -258,12 +258,6 @@ void addNode(Tree *tree, Node *node, char **buffer, char **readPtr, long lenOfFi
                     (char *) calloc(endTokenPtr - startTokenPtr + 1,
                                     sizeof(new_node->value[0]));
 
-                fprintf(stderr,
-                        "WRITE NUM %ld TOKENS: ---%s---\n"
-                        "NODE: %p\n",
-                        endTokenPtr - startTokenPtr + 1,
-                        startTokenPtr, node);
-
                 memcpy(new_node->value,
                        startTokenPtr,
                        endTokenPtr - startTokenPtr + 1);
@@ -271,13 +265,6 @@ void addNode(Tree *tree, Node *node, char **buffer, char **readPtr, long lenOfFi
                 isToken = false;
                 if (node->right != nullptr)
                     break;
-//                (*readPtr)++;
-//                fprintf(stderr,
-//                        "BUFFER_STATE: \n%s_\n tree.root=%p \nnode=%p\n",
-//                        *readPtr,
-//                        tree->root,
-//                        node);
-//                addNode(tree, new_node, buffer, readPtr, lenOfFile);
             }
             (*readPtr)++;
         }
