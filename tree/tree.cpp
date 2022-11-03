@@ -13,7 +13,21 @@ size_t treeDtor(Tree *tree)
 {
     CHECK_NULLPTR_ERROR(tree, TREE_IS_NULLPTR)
 
-    // TODO: tree dtor
+    nodeDtor(tree->root);
+    tree->size = 0;
+    return TREE_NO_ERRORS;
+}
+
+size_t nodeDtor(Node *node)
+{
+    CHECK_NULLPTR_ERROR(node, NODE_IS_NULLPTR)
+
+    if (node->left)
+        nodeDtor(node->left);
+    if (node->right)
+        nodeDtor(node->right);
+
+    free(node);
     return TREE_NO_ERRORS;
 }
 
@@ -128,24 +142,47 @@ size_t createGraphEdges(Node *node, FILE *fp)
     return TREE_NO_ERRORS;
 }
 
-size_t nodePreOrderPrint(Node *node)
+size_t treePrint(Tree *tree, FILE *fp)
 {
-    if (!node)
-        return TREE_NO_ERRORS;
+    CHECK_NULLPTR_ERROR(tree, TREE_IS_NULLPTR)
+
+    return nodePreOrderPrint(tree->root, fp, 0);
+}
+
+size_t nodePreOrderPrint(Node *node, FILE *fp, size_t num_spaces)
+{
+    CHECK_NULLPTR_ERROR(node, NODE_IS_NULLPTR)
 
     size_t error = TREE_NO_ERRORS;
 
-    printf("%s\n", node->value);
+    for (size_t i = 0; i < num_spaces; i++)
+    {
+        fprintf(fp, " ");
+    }
+
+    if (node->left == nullptr and node->right == nullptr)
+    {
+        fprintf(fp, "{ \"%s\" }\n", node->value);
+        return TREE_NO_ERRORS;
+    }
+    else
+        fprintf(fp, "{ \"%s\" \n", node->value);
 
     if (node->left)
-        error = nodePreOrderPrint(node->left);
+        error = nodePreOrderPrint(node->left, fp, num_spaces + 4);
     if (error)
         return error;
 
     if (node->right)
-        error = nodePreOrderPrint(node->right);
+        error = nodePreOrderPrint(node->right, fp, num_spaces + 4);
     if (error)
         return error;
+
+    for (size_t i = 0; i < num_spaces; i++)
+    {
+        fprintf(fp, " ");
+    }
+    fprintf(fp, "}\n");
 
     return TREE_NO_ERRORS;
 }
@@ -206,7 +243,6 @@ size_t readTree(Tree *tree, const char *filename)
     char *tree_buffer = readFileToBuf(fp, &lenOfFile);
     fclose(fp);
 
-
     Node *new_node = (Node *) calloc(1, sizeof(tree->root[0]));
     if (new_node == nullptr)
         return CANT_ALLOCATE_MEMORY;
@@ -219,19 +255,25 @@ size_t readTree(Tree *tree, const char *filename)
     return TREE_NO_ERRORS;
 }
 
-void addNode(Tree *tree, Node *node, char **buffer, char **readPtr, long lenOfFile)
+size_t addNode(Tree *tree,
+               Node *node,
+               char **buffer,
+               char **readPtr,
+               long lenOfFile)
 {
+    size_t error = TREE_NO_ERRORS;
+
     bool isToken = false;
     char *startTokenPtr = nullptr;
     char *endTokenPtr = nullptr;
     while (*readPtr < *buffer + lenOfFile)
     {
-        if (**readPtr == '}')
+        if (**readPtr == '}' or **readPtr == EOF)
         {
             if (isToken > 0)
             {
                 Node *new_node = nullptr;
-                if (node == tree->root and tree->root->value == nullptr)
+                if (node == tree->root and tree->size == 0)
                     new_node = tree->root;
                 else
                     new_node = (Node *) calloc(1, sizeof(Node));
@@ -257,10 +299,12 @@ void addNode(Tree *tree, Node *node, char **buffer, char **readPtr, long lenOfFi
                 new_node->value =
                     (char *) calloc(endTokenPtr - startTokenPtr + 1,
                                     sizeof(new_node->value[0]));
-
+                CHECK_NULLPTR_ERROR(new_node->value,
+                                    CANT_ALLOCATE_MEMORY)
                 memcpy(new_node->value,
                        startTokenPtr,
                        endTokenPtr - startTokenPtr + 1);
+                tree->size++;
 
                 isToken = false;
                 if (node->right != nullptr)
@@ -273,7 +317,7 @@ void addNode(Tree *tree, Node *node, char **buffer, char **readPtr, long lenOfFi
             if (isToken > 0)
             {
                 Node *new_node = nullptr;
-                if (node == tree->root and tree->root->value == nullptr)
+                if (node == tree->root and tree->size == 0)
                     new_node = tree->root;
                 else
                     new_node = (Node *) calloc(1, sizeof(Node));
@@ -297,11 +341,21 @@ void addNode(Tree *tree, Node *node, char **buffer, char **readPtr, long lenOfFi
                 new_node->value =
                     (char *) calloc(endTokenPtr - startTokenPtr + 1,
                                     sizeof(new_node->value[0]));
+                CHECK_NULLPTR_ERROR(new_node->value,
+                                    CANT_ALLOCATE_MEMORY)
                 memcpy(new_node->value,
                        startTokenPtr,
                        endTokenPtr - startTokenPtr + 1);
+                tree->size++;
 
-                addNode(tree, new_node, buffer, readPtr, lenOfFile);
+                error = addNode(tree,
+                                new_node,
+                                buffer,
+                                readPtr,
+                                lenOfFile);
+
+                if (error)
+                    return error;
             }
             (*readPtr)++;
         }
@@ -317,4 +371,5 @@ void addNode(Tree *tree, Node *node, char **buffer, char **readPtr, long lenOfFi
             (*readPtr)++;
         }
     }
+    return TREE_NO_ERRORS;
 }

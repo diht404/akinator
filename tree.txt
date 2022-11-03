@@ -1,12 +1,12 @@
-{"Alive"
-    { "Cat"
-           {"1.5"}
-           {"DBMP"}
+{ "Alive" 
+    { "Cat" 
+        { "1.5" }
+        { "DBMP" }
     }
-    { "DGAP"
-        { "Expelled"
-            {"200"}
-            {"Transferred to another department"}
+    { "DGAP" 
+        { "Expelled" 
+            { "200" }
+            { "Transferred to another department" }
         }
         { "DIHT" }
     }

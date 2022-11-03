@@ -25,14 +25,17 @@ enum TreeErrors
 {
     TREE_NO_ERRORS           = 0,
     TREE_IS_NULLPTR          = 1,
-    TREE_FILENAME_IS_NULLPTR = 2,
-    CANT_OPEN_TREE_FILE      = 3,
-    CANT_ALLOCATE_MEMORY     = 4,
+    NODE_IS_NULLPTR          = 2,
+    TREE_FILENAME_IS_NULLPTR = 3,
+    CANT_OPEN_TREE_FILE      = 4,
+    CANT_ALLOCATE_MEMORY     = 5,
 };
 
 size_t treeCtor(Tree *tree);
 
 size_t treeDtor(Tree *tree);
+
+size_t nodeDtor(Node *node);
 
 size_t treeDump(Tree *tree);
 
@@ -42,7 +45,9 @@ size_t createGraphNodes(Node *node, FILE *fp);
 
 size_t createGraphEdges(Node *node, FILE *fp);
 
-size_t nodePreOrderPrint(Node *node);
+size_t treePrint(Tree *tree, FILE *fp);
+
+size_t nodePreOrderPrint(Node *node, FILE *fp, size_t num_spaces = 0);
 
 size_t nodeInOrderPrint(Node *node);
 
@@ -50,7 +55,7 @@ size_t nodePostOrderPrint(Node *node);
 
 size_t readTree(Tree *tree, const char *filename);
 
-void addNode(Tree *tree, Node *node, char **buffer, char **readPtr, long lenOfFile);
+size_t addNode(Tree *tree, Node *node, char **buffer, char **readPtr, long lenOfFile);
 
 #define CHECK_NULLPTR_ERROR(value, error) \
     {                                     \
