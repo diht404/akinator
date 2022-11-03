@@ -41,7 +41,7 @@ size_t createGraph(Tree *tree, const char *photo_name)
 
     FILE *fp = fopen(GRAPH_FILENAME, "w");
     fprintf(fp, "digraph TREE {\n"
-                "    rankdir=LR;\n");
+                "    rankdir=TB;\n");
 
     createGraphNodes(tree->root, fp);
     createGraphEdges(tree->root, fp);
@@ -65,13 +65,15 @@ size_t createGraphNodes(Node *node, FILE *fp)
 
     fprintf(fp,
             "    node_%p[shape=\"record\", \n"
+            "        color=%s,"
             "        fillcolor=%s, \n"
             "        style=\"rounded, filled\", \n"
             "        label=\"\n"
-            "            VALUE = %s |\n"
-            "            {{LEFT | %p} | {INDEX | %p} | {RIGHT | %p}}\"]\n",
+            "            {%s? |\n"
+            "            {{LEFT | %p} | {INDEX | %p} | {RIGHT | %p}}}\"]\n",
             node,
             GREEN_COLOR,
+            LIGHT_GREEN_COLOR,
             node->value,
             node->left,
             node,
@@ -100,9 +102,11 @@ size_t createGraphEdges(Node *node, FILE *fp)
     if (node->left)
     {
         fprintf(fp,
-                "    node_%p->node_%p;",
+                "    node_%p->node_%p[label=\"YES\", color=%s, fontcolor=%s];",
                 node,
-                node->left);
+                node->left,
+                PURPLE_COLOR,
+                GREEN_COLOR);
         error = createGraphEdges(node->left, fp);
         if (error)
             return error;
@@ -111,9 +115,11 @@ size_t createGraphEdges(Node *node, FILE *fp)
     if (node->right)
     {
         fprintf(fp,
-                "    node_%p->node_%p;",
+                "    node_%p->node_%p[label=\"NO\",  color=%s, fontcolor=%s];",
                 node,
-                node->right);
+                node->right,
+                PURPLE_COLOR,
+                RED_COLOR);
         error = createGraphEdges(node->right, fp);
         if (error)
             return error;

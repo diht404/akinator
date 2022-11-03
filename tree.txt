@@ -1,10 +1,13 @@
-{"Is it alive"
-    { "DIHT"
-        {"404"}
-        {"666"}
+{"Alive"
+    { "Cat"
+           {"1.5"}
+           {"DBMP"}
     }
     { "DGAP"
-        {"200"}
-        {"300"}
+        { "Expelled"
+            {"200"}
+            {"Transferred to another department"}
+        }
+        { "DIHT" }
     }
 }
