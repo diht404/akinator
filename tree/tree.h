@@ -45,9 +45,9 @@ size_t treePrint(Tree *tree, FILE *fp);
 
 size_t nodePreOrderPrint(Node *node, FILE *fp, size_t num_spaces = 0);
 
-size_t nodeInOrderPrint(Node *node);
+size_t nodeInOrderPrint(Node *node, FILE *fp, size_t num_spaces = 0);
 
-size_t nodePostOrderPrint(Node *node);
+size_t nodePostOrderPrint(Node *node, FILE *fp, size_t num_spaces = 0);
 
 size_t readTree(Tree *tree, const char *filename);
 

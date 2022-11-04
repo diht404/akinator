@@ -68,12 +68,16 @@ size_t nodePreOrderPrint(Node *node, FILE *fp, size_t num_spaces)
         fprintf(fp, "{ %s \n", node->value);
 
     if (node->left)
-        error = nodePreOrderPrint(node->left, fp, num_spaces + 4);
+        error = nodePreOrderPrint(node->left,
+                                  fp,
+                                  num_spaces + LOGS_NUM_SPACES);
     if (error)
         return error;
 
     if (node->right)
-        error = nodePreOrderPrint(node->right, fp, num_spaces + 4);
+        error = nodePreOrderPrint(node->right,
+                                  fp,
+                                  num_spaces + LOGS_NUM_SPACES);
     if (error)
         return error;
 
@@ -86,7 +90,7 @@ size_t nodePreOrderPrint(Node *node, FILE *fp, size_t num_spaces)
     return TREE_NO_ERRORS;
 }
 
-size_t nodeInOrderPrint(Node *node)
+size_t nodeInOrderPrint(Node *node, FILE *fp, size_t num_spaces)
 {
     if (!node)
         return TREE_NO_ERRORS;
@@ -94,21 +98,25 @@ size_t nodeInOrderPrint(Node *node)
     size_t error = TREE_NO_ERRORS;
 
     if (node->left)
-        error = nodeInOrderPrint(node->left);
+        error = nodeInOrderPrint(node->left,
+                                 fp,
+                                 num_spaces);
     if (error)
         return error;
 
-    printf("%s\n", node->value);
+    fprintf(fp, "%s\n", node->value);
 
     if (node->right)
-        error = nodeInOrderPrint(node->right);
+        error = nodeInOrderPrint(node->right,
+                                 fp,
+                                 num_spaces);
     if (error)
         return error;
 
     return TREE_NO_ERRORS;
 }
 
-size_t nodePostOrderPrint(Node *node)
+size_t nodePostOrderPrint(Node *node, FILE *fp, size_t num_spaces)
 {
     if (!node)
         return TREE_NO_ERRORS;
@@ -116,16 +124,20 @@ size_t nodePostOrderPrint(Node *node)
     size_t error = TREE_NO_ERRORS;
 
     if (node->left)
-        error = nodePostOrderPrint(node->left);
+        error = nodePostOrderPrint(node->left,
+                                   fp,
+                                   num_spaces);
     if (error)
         return error;
 
     if (node->right)
-        error = nodePostOrderPrint(node->right);
+        error = nodePostOrderPrint(node->right,
+                                   fp,
+                                   num_spaces);
     if (error)
         return error;
 
-    printf("%s\n", node->value);
+    fprintf(fp, "%s \n", node->value);
 
     return TREE_NO_ERRORS;
 }
