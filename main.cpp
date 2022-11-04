@@ -5,6 +5,8 @@ int main()
     treeClearGraphLogFile();
     treeSetLogFile();
 
+    setVoiceOutput();
+
     Tree tree = {};
     treeCtor(&tree);
     readTree(&tree, AKINATOR_FILE);

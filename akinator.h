@@ -9,7 +9,7 @@
 #include "tree/logs.h"
 #include "stack/stack.h"
 
-const size_t BUFFER_SIZE = 128;
+const size_t BUFFER_SIZE = 1024;
 const char AKINATOR_FILE[] = "tree.txt";
 
 struct Definition
@@ -17,6 +17,10 @@ struct Definition
     char definition[BUFFER_SIZE][BUFFER_SIZE] = {};
     int length = 0;
 };
+
+void setVoiceOutput();
+
+void disableVoiceOutput();
 
 size_t selectTask(Tree *tree);
 
@@ -33,5 +37,7 @@ size_t createDefinition(Stack *stack,
                         Definition *definition);
 
 size_t pushPointersToStack(Node *node, Stack *stack, Val_t value);
+
+void outputText(const char *formatString, ...);
 
 #endif //AKINATOR__AKINATOR_H
