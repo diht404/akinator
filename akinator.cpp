@@ -1,5 +1,86 @@
 #include "akinator.h"
 
+size_t selectTask(Tree *tree)
+{
+    while (true)
+    {
+        int task = 0;
+        printf("Please, select a task:\n"
+               "0 - exit\n"
+               "1 - guessing\n"
+               "2 - definition\n"
+               "3 - comparison\n"
+               "4 - dump\n"
+               "5 - save changes\n"
+               "6 - set to audio.\n");
+
+        int correct = scanf("%d", &task);
+        int readCount = 1;
+
+        while (correct != 1 && readCount < 5)
+        {
+            printf("Incorrect number, try again!\n");
+            skipUnusedSymbols();
+            readCount += 1;
+            correct = scanf("%d", &task);
+        }
+
+        if (readCount == 5)
+            break;
+
+        switch (task)
+        {
+            case 0:
+            {
+                printf("Good bye!");
+                return TREE_NO_ERRORS;
+            }
+            case 1:
+            {
+                treeGuessing(tree);
+                break;
+            }
+            case 2:
+            {
+                char buffer[BUFFER_SIZE] = "";
+                printf("Definition of what you want?\n");
+                skipUnusedSymbols();
+                size_t len = gets(buffer);
+                buffer[len - 1] = '\0';
+                getDefinition(tree, buffer);
+                break;
+            }
+            case 3:
+            {
+//            treeGuessing(tree);
+                break;
+            }
+            case 4:
+            {
+                treeDump(tree);
+                break;
+            }
+            case 5:
+            {
+                FILE *fp = fopen(AKINATOR_FILE, "w");
+                treePrint(tree, fp);
+                fclose(fp);
+                break;
+            }
+            case 6:
+            {
+                //
+                break;
+            }
+            default:
+            {
+                printf("Unknown command code: %d", task);
+                break;
+            }
+        }
+    }
+}
+
 size_t treeGuessing(Tree *tree)
 {
     CHECK_NULLPTR_ERROR(tree, TREE_IS_NULLPTR)
@@ -41,11 +122,12 @@ size_t treeGuessing(Tree *tree)
         skipUnusedSymbols();
 
         printf("What is the correct answer? \n");
-        size_t correct_answer_size = gets(correct_answer) - 1;
+        size_t correct_answer_size = gets(correct_answer);
+        correct_answer[correct_answer_size - 1] = '\0';
 
         char delimiter_answer[BUFFER_SIZE] = "";
         printf("I don't understand "
-               "that is the difference between \"%s\" and \"%s\"."
+               "that is the difference between \"%s\" and \"%s\". "
                "Can you please explain? \n",
                correct_answer,
                current_node->value);
@@ -58,6 +140,82 @@ size_t treeGuessing(Tree *tree)
                    delimiter_size);
     }
     return TREE_NO_ERRORS;
+}
+
+size_t getDefinition(Tree *tree, Val_t value)
+{
+    Stack stack = {};
+    size_t error = STACK_NO_ERRORS;
+    stackCtor(&stack, 0, &error)
+
+    pushPointersToStack(tree->root, &stack, value);
+    if (stack.size == 0)
+        return TREE_NO_SUCH_ELEMENT;
+
+    Node *definition_node = nullptr;
+    Elem_t stackValue = 0;
+    while (stack.size)
+    {
+        stackPop(&stack, &stackValue);
+        if (strcasecmp(((Node *) stackValue)->value, value) == 0)
+        {
+            definition_node = (Node *) stackValue;
+            printf("%s is", value);
+            break;
+        }
+    }
+    if (definition_node == nullptr)
+    {
+        printf("I don't know what is it.");
+        return TREE_NO_ERRORS;
+    }
+    if (stack.size == 0)
+    {
+        printf(" %s\n", value);
+        return TREE_NO_ERRORS;
+    }
+
+    Node *candidate_definition_node = nullptr;
+    while (stack.size)
+    {
+        stackPop(&stack, &stackValue);
+        candidate_definition_node = (Node *) stackValue;
+        if (candidate_definition_node->left == definition_node)
+        {
+            definition_node = candidate_definition_node;
+            printf(" %s%s",
+                   definition_node->value,
+                   stack.size > 0 ? " and" : ".");
+            continue;
+        }
+        else if (candidate_definition_node->right == definition_node)
+        {
+            definition_node = candidate_definition_node;
+            printf(" not %s%s",
+                   definition_node->value,
+                   stack.size > 0 ? " and" : ".");
+            continue;
+        }
+    }
+    return error;
+}
+
+size_t pushPointersToStack(Node *node, Stack *stack, Val_t value)
+{
+    CHECK_NULLPTR_ERROR(node, NODE_IS_NULLPTR)
+    CHECK_NULLPTR_ERROR(stack, STACK_NULLPTR)
+
+    Elem_t stackValue = 0;
+
+    stackPush(stack, (Elem_t) node);
+
+    if (strcasecmp(node->value, value) == 0)
+        return TREE_NO_ERRORS;
+
+    if (node->left)
+        pushPointersToStack(node->left, stack, value);
+    if (node->right)
+        pushPointersToStack(node->right, stack, value);
 }
 
 size_t gets(char *s)

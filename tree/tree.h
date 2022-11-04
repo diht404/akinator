@@ -28,7 +28,9 @@ enum TreeErrors
     NODE_IS_NULLPTR          = 2,
     TREE_FILENAME_IS_NULLPTR = 3,
     CANT_OPEN_TREE_FILE      = 4,
-    CANT_ALLOCATE_MEMORY     = 5,
+    TREE_CANT_ALLOCATE_MEMORY= 5,
+    TREE_NO_SUCH_ELEMENT     = 6,
+    TOO_MANY_ATTEMPTS_TO_READ= 7,
 };
 
 size_t treeCtor(Tree *tree);

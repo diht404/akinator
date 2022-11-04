@@ -3,14 +3,13 @@
 int main()
 {
     Tree tree = {};
-    const char *tree_filename = "tree.txt";
     treeCtor(&tree);
-    readTree(&tree, tree_filename);
+    readTree(&tree, AKINATOR_FILE);
 
-    treeGuessing(&tree);
+    selectTask(&tree);
 
     treeDump(&tree);
-    FILE *fp = fopen(tree_filename, "w");
+    FILE *fp = fopen(AKINATOR_FILE, "w");
     treePrint(&tree, fp);
     fclose(fp);
     treeDtor(&tree);

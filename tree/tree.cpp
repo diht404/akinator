@@ -172,11 +172,11 @@ size_t nodePreOrderPrint(Node *node, FILE *fp, size_t num_spaces)
 
     if (node->left == nullptr and node->right == nullptr)
     {
-        fprintf(fp, "{ \"%s\" }\n", node->value);
+        fprintf(fp, "{ %s }\n", node->value);
         return TREE_NO_ERRORS;
     }
     else
-        fprintf(fp, "{ \"%s\" \n", node->value);
+        fprintf(fp, "{ %s \n", node->value);
 
     if (node->left)
         error = nodePreOrderPrint(node->left, fp, num_spaces + 4);
@@ -255,7 +255,7 @@ size_t readTree(Tree *tree, const char *filename)
 
     Node *new_node = (Node *) calloc(1, sizeof(tree->root[0]));
     if (new_node == nullptr)
-        return CANT_ALLOCATE_MEMORY;
+        return TREE_CANT_ALLOCATE_MEMORY;
     tree->root = new_node;
 
     char *readPtr = tree_buffer;
@@ -310,7 +310,7 @@ size_t addNode(Tree *tree,
                     (char *) calloc(endTokenPtr - startTokenPtr + 1,
                                     sizeof(new_node->value[0]));
                 CHECK_NULLPTR_ERROR(new_node->value,
-                                    CANT_ALLOCATE_MEMORY)
+                                    TREE_CANT_ALLOCATE_MEMORY)
                 memcpy(new_node->value,
                        startTokenPtr,
                        endTokenPtr - startTokenPtr + 1);
@@ -352,7 +352,7 @@ size_t addNode(Tree *tree,
                     (char *) calloc(endTokenPtr - startTokenPtr + 1,
                                     sizeof(new_node->value[0]));
                 CHECK_NULLPTR_ERROR(new_node->value,
-                                    CANT_ALLOCATE_MEMORY)
+                                    TREE_CANT_ALLOCATE_MEMORY)
                 memcpy(new_node->value,
                        startTokenPtr,
                        endTokenPtr - startTokenPtr + 1);
@@ -393,11 +393,11 @@ size_t insertNode(Node *node,
     CHECK_NULLPTR_ERROR(node, NODE_IS_NULLPTR)
 
     node->left = (Node *) calloc(1, sizeof(Node));
-    CHECK_NULLPTR_ERROR(node->left, CANT_ALLOCATE_MEMORY)
+    CHECK_NULLPTR_ERROR(node->left, TREE_CANT_ALLOCATE_MEMORY)
     nodeCtor(node->left);
 
     node->right = (Node *) calloc(1, sizeof(Node));
-    CHECK_NULLPTR_ERROR(node->right, CANT_ALLOCATE_MEMORY)
+    CHECK_NULLPTR_ERROR(node->right, TREE_CANT_ALLOCATE_MEMORY)
     nodeCtor(node->right);
 
     node->right->value = node->value;
