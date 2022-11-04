@@ -32,7 +32,7 @@ size_t selectTask(Tree *tree)
         {
             case 0:
             {
-                printf("Good bye!");
+                printf("Good bye!\n");
                 return TREE_NO_ERRORS;
             }
             case 1:
@@ -55,13 +55,13 @@ size_t selectTask(Tree *tree)
                 printf("Comparison of what you want?\n");
 
                 char first_entity[BUFFER_SIZE] = "";
-                printf("Enter first entity: ");
+                printf("Enter first entity: \n");
                 skipUnusedSymbols();
                 size_t first_len = gets(first_entity);
                 first_entity[first_len - 1] = '\0';
 
                 char second_entity[BUFFER_SIZE] = "";
-                printf("Enter first entity: ");
+                printf("Enter first entity: \n");
                 skipUnusedSymbols();
                 size_t second_len = gets(second_entity);
                 second_entity[second_len - 1] = '\0';
@@ -89,7 +89,7 @@ size_t selectTask(Tree *tree)
             }
             default:
             {
-                printf("Unknown command code: %d", task);
+                printf("Unknown command code: %d\n", task);
                 break;
             }
         }
@@ -190,7 +190,11 @@ size_t getDefinition(Tree *tree, Val_t value)
         return TREE_NO_ERRORS;
     }
 
+
+
     Node *candidate_definition_node = nullptr;
+    char definition[BUFFER_SIZE][BUFFER_SIZE] = {};
+    int counter = 0;
     while (stack.size)
     {
         stackPop(&stack, &stackValue);
@@ -198,20 +202,26 @@ size_t getDefinition(Tree *tree, Val_t value)
         if (candidate_definition_node->left == definition_node)
         {
             definition_node = candidate_definition_node;
-            printf(" %s%s",
-                   definition_node->value,
-                   stack.size > 0 ? " and" : ".");
+            sprintf(definition[counter], " %s",
+                    definition_node->value);
+            counter++;
             continue;
         }
         else if (candidate_definition_node->right == definition_node)
         {
             definition_node = candidate_definition_node;
-            printf(" not %s%s",
-                   definition_node->value,
-                   stack.size > 0 ? " and" : ".");
+            sprintf(definition[counter],
+                    " not %s",
+                    definition_node->value);
+            counter++;
             continue;
         }
     }
+    for (int i = counter - 1; i>=0; i--)
+    {
+        printf("%s%s", definition[i], i ? " and": ".\n");
+    }
+
     return error;
 }
 
