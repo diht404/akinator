@@ -230,18 +230,22 @@ size_t getComparison(Tree *tree,
            first_entity,
            second_entity);
 
-    if (counter_first>=0)
+    if (counter_first >= 0)
         printf("%s:", first_entity);
     for (int i = counter_first; i >= 0; i--)
     {
-        printf("%s%s", definition_first.definition[i], i ? " and" : ".\n");
+        printf("%s%s",
+               definition_first.definition[i],
+               i ? " and" : ".\n");
     }
 
-    if (counter_second>=0)
+    if (counter_second >= 0)
         printf("%s:", second_entity);
     for (int i = counter_second; i >= 0; i--)
     {
-        printf("%s%s", definition_second.definition[i], i ? " and" : ".\n");
+        printf("%s%s",
+               definition_second.definition[i],
+               i ? " and" : ".\n");
     }
 }
 

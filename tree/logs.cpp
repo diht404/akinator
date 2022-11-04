@@ -63,7 +63,10 @@ size_t createGraph(Tree *tree, const char *photo_name)
 
     char command[128] = "";
     fclose(fp);
-    sprintf(command, "dot %s -T jpg -o %s", GRAPH_FILENAME, photo_name);
+    sprintf(command,
+            "dot %s -T jpg -o %s",
+            GRAPH_FILENAME,
+            photo_name);
     system(command);
     return TREE_NO_ERRORS;
 }
