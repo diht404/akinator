@@ -3,7 +3,7 @@
 
 typedef char *Val_t;
 
-const char *const GRAPH_FILENAME    = "tree_graph";
+const char *const GRAPH_FILENAME    = "./tree/tree_graph.txt";
 const char *const PURPLE_COLOR      = "\"#a66be8\"";
 const char *const BLUE_COLOR        = "\"#6bcce8\"";
 const char *const GREEN_COLOR       = "\"#6be871\"";

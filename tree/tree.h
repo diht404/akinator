@@ -5,7 +5,7 @@
 #include "stdlib.h"
 #include "assert.h"
 #include "config.h"
-#include "utils.h"
+#include "../utils.h"
 #include "cstring"
 
 struct Node
@@ -41,14 +41,6 @@ size_t treeDtor(Tree *tree);
 
 size_t nodeDtor(Node *node);
 
-size_t treeDump(Tree *tree);
-
-size_t createGraph(Tree *tree, const char *photo_name);
-
-size_t createGraphNodes(Node *node, FILE *fp);
-
-size_t createGraphEdges(Node *node, FILE *fp);
-
 size_t treePrint(Tree *tree, FILE *fp);
 
 size_t nodePreOrderPrint(Node *node, FILE *fp, size_t num_spaces = 0);
@@ -59,7 +51,11 @@ size_t nodePostOrderPrint(Node *node);
 
 size_t readTree(Tree *tree, const char *filename);
 
-size_t addNode(Tree *tree, Node *node, char **buffer, char **readPtr, long lenOfFile);
+size_t addNode(Tree *tree,
+               Node *node,
+               char **buffer,
+               char **readPtr,
+               long lenOfFile);
 
 size_t insertNode(Node *node,
                   char *value,

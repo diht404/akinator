@@ -1,10 +1,10 @@
-{ Alive
-    { Cat
+{ Alive 
+    { Cat 
         { 1.5 }
         { DBMP }
     }
-    { DGAP
-        { Expelled
+    { DGAP 
+        { Expelled 
             { 200 }
             { Transferred to another department }
         }
