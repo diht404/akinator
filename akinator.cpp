@@ -52,11 +52,26 @@ size_t selectTask(Tree *tree)
             }
             case 3:
             {
-//            treeGuessing(tree);
+                printf("Comparison of what you want?\n");
+
+                char first_entity[BUFFER_SIZE] = "";
+                printf("Enter first entity: ");
+                skipUnusedSymbols();
+                size_t first_len = gets(first_entity);
+                first_entity[first_len - 1] = '\0';
+
+                char second_entity[BUFFER_SIZE] = "";
+                printf("Enter first entity: ");
+                skipUnusedSymbols();
+                size_t second_len = gets(second_entity);
+                second_entity[second_len - 1] = '\0';
+
+//                getComparison(tree, first_entity, second_entity);
                 break;
             }
             case 4:
             {
+                printf("Tree dumped.\n");
                 treeDump(tree);
                 break;
             }
@@ -69,7 +84,7 @@ size_t selectTask(Tree *tree)
             }
             case 6:
             {
-                //
+                // todo: speech
                 break;
             }
             default:
