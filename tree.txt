@@ -1,13 +1,16 @@
 { Alive 
     { Cat 
-        { 1.5 }
-        { DBMP }
+        { Human
+            { catgirl }
+            { 1.5 }
+        }
+        { student of DBMP }
     }
     { DGAP 
         { Expelled 
-            { 200 }
+            { In the army }
             { Transferred to another department }
         }
-        { DIHT }
+        { student of DIHT }
     }
 }
