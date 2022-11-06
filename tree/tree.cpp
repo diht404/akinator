@@ -41,7 +41,7 @@ size_t nodeDtor(Node *node)
     return TREE_NO_ERRORS;
 }
 
-size_t treePrint(Tree *tree, FILE *fp)
+size_t treeSaveToFile(Tree *tree, FILE *fp)
 {
     CHECK_NULLPTR_ERROR(tree, TREE_IS_NULLPTR)
 
@@ -161,16 +161,16 @@ size_t readTree(Tree *tree, const char *filename)
 
     char *readPtr = tree_buffer;
 
-    addNode(tree, tree->root, &tree_buffer, &readPtr, lenOfFile);
+    parseNode(tree, tree->root, &tree_buffer, &readPtr, lenOfFile);
 
     return TREE_NO_ERRORS;
 }
 
-size_t addNode(Tree *tree,
-               Node *node,
-               char **buffer,
-               char **readPtr,
-               long lenOfFile)
+size_t parseNode(Tree *tree,
+                 Node *node,
+                 char **buffer,
+                 char **readPtr,
+                 long lenOfFile)
 {
     size_t error = TREE_NO_ERRORS;
 
@@ -259,11 +259,11 @@ size_t addNode(Tree *tree,
                        endTokenPtr - startTokenPtr + 1);
                 tree->size++;
 
-                error = addNode(tree,
-                                new_node,
-                                buffer,
-                                readPtr,
-                                lenOfFile);
+                error = parseNode(tree,
+                                  new_node,
+                                  buffer,
+                                  readPtr,
+                                  lenOfFile);
 
                 if (error)
                     return error;

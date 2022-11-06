@@ -33,30 +33,113 @@ enum TreeErrors
     TOO_MANY_ATTEMPTS_TO_READ= 7,
 };
 
+/**
+ * @brief constructor of tree
+ *
+ * @param tree tree to construct
+ * @return error code
+ */
 size_t treeCtor(Tree *tree);
 
+/**
+ * @brief constructor of node
+ *
+ * @param node node to construct
+ * @return error code
+ */
 size_t nodeCtor(Node *node);
 
+/**
+ * @brief destructor of tree
+ *
+ * @param tree tree to destruct
+ * @return error code
+ */
 size_t treeDtor(Tree *tree);
 
+/**
+* @brief destructor of node
+*
+* @param node node to destruct
+* @return error code
+*/
 size_t nodeDtor(Node *node);
 
-size_t treePrint(Tree *tree, FILE *fp);
+/**
+ * @brief saves tree to file
+ *
+ * @param tree tree to save
+ * @param fp file for saving
+ * @return error code
+ */
+size_t treeSaveToFile(Tree *tree, FILE *fp);
 
+/**
+ * @brief prints nodes in preorder in specific format
+ *
+ * @param node node to print
+ * @param fp file to print
+ * @param num_spaces number of formatting spaces
+ * @return error code
+ */
 size_t nodePreOrderPrint(Node *node, FILE *fp, size_t num_spaces = 0);
 
+/**
+ * @brief prints nodes in inorder
+ *
+ * @param node node to print
+ * @param fp file to print
+ * @param num_spaces number of formatting spaces
+ * @return error code
+ */
 size_t nodeInOrderPrint(Node *node, FILE *fp, size_t num_spaces = 0);
 
+/**
+ * @brief prints nodes in postorder
+ *
+ * @param node node to print
+ * @param fp file to print
+ * @param num_spaces number of formatting spaces
+ * @return error code
+ */
 size_t nodePostOrderPrint(Node *node, FILE *fp, size_t num_spaces = 0);
 
+/**
+ * @brief reads tree from file
+ *
+ * @param tree tree to save data from file
+ * @param filename name of file to read
+ * @return error code
+ */
 size_t readTree(Tree *tree, const char *filename);
 
-size_t addNode(Tree *tree,
-               Node *node,
-               char **buffer,
-               char **readPtr,
-               long lenOfFile);
+/**
+ * @brief parses node to tree
+ *
+ * @param tree tree to add node
+ * @param node node to add after
+ * @param buffer buffer with text info about new node
+ * @param readPtr pointer to element in buffer to start parsing
+ * @param lenOfFile length of file to read
+ * @return error code
+ */
+size_t parseNode(Tree *tree,
+                 Node *node,
+                 char **buffer,
+                 char **readPtr,
+                 long lenOfFile);
 
+/**
+ * @brief inserts node
+ *
+ * @param node node to change with delimiter value and
+ * add value of this node as answer to "no"
+ * @param value value to insert if "yes"
+ * @param value_size length of value string
+ * @param delimiter value to insert in node
+ * @param delimiter_size length of delimiter string
+ * @return error code
+ */
 size_t insertNode(Node *node,
                   char *value,
                   size_t value_size,

@@ -2,7 +2,7 @@
 
 bool VOICE_OUTPUT = false;
 
-void setVoiceOutput()
+void enableVoiceOutput()
 {
     VOICE_OUTPUT = true;
 }
@@ -99,7 +99,7 @@ size_t selectTask(Tree *tree)
             case 5:
             {
                 FILE *fp = fopen(AKINATOR_FILE, "w");
-                treePrint(tree, fp);
+                treeSaveToFile(tree, fp);
                 fclose(fp);
                 outputText("Changes were saved.\n");
                 break;
@@ -386,25 +386,25 @@ size_t pushPointersToStack(Node *node, Stack *stack, Val_t value)
         pushPointersToStack(node->right, stack, value);
 }
 
-void outputText(const char *formatString, ...)
+void outputText(const char *text, ...)
 {
-    assert(formatString != nullptr);
+    assert(text != nullptr);
 
     va_list args = {};
 
-    va_start(args, formatString);
-    vprintf(formatString, args);
+    va_start(args, text);
+    vprintf(text, args);
     va_end(args);
     if (!VOICE_OUTPUT)
         return;
 
-    va_start(args, formatString);
+    va_start(args, text);
     char commandFormatString[BUFFER_SIZE] = "";
     sprintf(commandFormatString,
             "echo "
             "%s"
             " | festival --tts",
-            formatString);
+            text);
 
     char command[BUFFER_SIZE] = "";
     vsprintf(command,
