@@ -92,7 +92,7 @@ size_t createDefinition(Stack *stack,
  * @param node root of tree to push
  * @param stack stack to push pointers of nodes
  * @param value value to search
- * @return
+ * @return error code
  */
 size_t pushPointersToStack(Node *node, Stack *stack, Val_t value);
 
@@ -101,7 +101,8 @@ size_t pushPointersToStack(Node *node, Stack *stack, Val_t value);
  *
  * @param text text to print
  * @param ... args of format string
+ * @return error code
  */
-void outputText(const char *text, ...);
+size_t outputText(const char *text, ...);
 
 #endif //AKINATOR__AKINATOR_H

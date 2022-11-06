@@ -51,6 +51,7 @@ size_t treeSaveToFile(Tree *tree, FILE *fp)
 size_t nodePreOrderPrint(Node *node, FILE *fp, size_t num_spaces)
 {
     CHECK_NULLPTR_ERROR(node, NODE_IS_NULLPTR)
+    CHECK_NULLPTR_ERROR(fp, FILE_IS_NULLPTR)
 
     size_t error = TREE_NO_ERRORS;
 
@@ -92,8 +93,8 @@ size_t nodePreOrderPrint(Node *node, FILE *fp, size_t num_spaces)
 
 size_t nodeInOrderPrint(Node *node, FILE *fp, size_t num_spaces)
 {
-    if (!node)
-        return TREE_NO_ERRORS;
+    CHECK_NULLPTR_ERROR(node, NODE_IS_NULLPTR)
+    CHECK_NULLPTR_ERROR(fp, FILE_IS_NULLPTR)
 
     size_t error = TREE_NO_ERRORS;
 
@@ -118,8 +119,8 @@ size_t nodeInOrderPrint(Node *node, FILE *fp, size_t num_spaces)
 
 size_t nodePostOrderPrint(Node *node, FILE *fp, size_t num_spaces)
 {
-    if (!node)
-        return TREE_NO_ERRORS;
+    CHECK_NULLPTR_ERROR(node, NODE_IS_NULLPTR)
+    CHECK_NULLPTR_ERROR(fp, FILE_IS_NULLPTR)
 
     size_t error = TREE_NO_ERRORS;
 
@@ -145,6 +146,7 @@ size_t nodePostOrderPrint(Node *node, FILE *fp, size_t num_spaces)
 size_t readTree(Tree *tree, const char *filename)
 {
     CHECK_NULLPTR_ERROR(tree, TREE_IS_NULLPTR)
+    CHECK_NULLPTR_ERROR(filename, STRING_IS_NULLPTR)
 
     FILE *fp = fopen(filename, "r");
     if (fp == nullptr)
@@ -172,6 +174,11 @@ size_t parseNode(Tree *tree,
                  char **readPtr,
                  long lenOfFile)
 {
+    CHECK_NULLPTR_ERROR(tree, TREE_IS_NULLPTR)
+    CHECK_NULLPTR_ERROR(node, NODE_IS_NULLPTR)
+    CHECK_NULLPTR_ERROR(buffer, STRING_IS_NULLPTR)
+    CHECK_NULLPTR_ERROR(readPtr, STRING_IS_NULLPTR)
+
     size_t error = TREE_NO_ERRORS;
 
     bool isToken = false;
@@ -292,6 +299,8 @@ size_t insertNode(Node *node,
                   size_t delimiter_size)
 {
     CHECK_NULLPTR_ERROR(node, NODE_IS_NULLPTR)
+    CHECK_NULLPTR_ERROR(value, STRING_IS_NULLPTR)
+    CHECK_NULLPTR_ERROR(delimiter, STRING_IS_NULLPTR)
 
     node->left = (Node *) calloc(1, sizeof(Node));
     CHECK_NULLPTR_ERROR(node->left, TREE_CANT_ALLOCATE_MEMORY)

@@ -14,6 +14,8 @@ void disableVoiceOutput()
 
 size_t selectTask(Tree *tree)
 {
+    CHECK_NULLPTR_ERROR(tree, TREE_IS_NULLPTR)
+
     outputText("Hi, my name is Skynet. "
                "I an General Artificial Intelligence.\n");
     while (true)
@@ -185,6 +187,10 @@ size_t getComparison(Tree *tree,
                      Val_t first_entity,
                      Val_t second_entity)
 {
+    CHECK_NULLPTR_ERROR(tree, TREE_IS_NULLPTR)
+    CHECK_NULLPTR_ERROR(first_entity, STRING_IS_NULLPTR)
+    CHECK_NULLPTR_ERROR(second_entity, STRING_IS_NULLPTR)
+
     if (strcasecmp(first_entity, second_entity) == 0)
     {
         outputText("It is the same. What do you want you compare?\n");
@@ -283,6 +289,9 @@ size_t getComparison(Tree *tree,
 
 size_t getDefinition(Tree *tree, Val_t value)
 {
+    CHECK_NULLPTR_ERROR(tree, TREE_IS_NULLPTR)
+    CHECK_NULLPTR_ERROR(value, STRING_IS_NULLPTR)
+
     Stack stack = {};
     size_t error = STACK_NO_ERRORS;
     stackCtor(&stack, 0, &error)
@@ -317,6 +326,13 @@ size_t getDefinition(Tree *tree, Val_t value)
 
 Node *pushUntilValue(Tree *tree, Stack *stack, Val_t value)
 {
+    if (tree == nullptr)
+        return nullptr;
+    if (stack == nullptr)
+        return nullptr;
+    if (value == nullptr)
+        return nullptr;
+
     pushPointersToStack(tree->root, stack, value);
     if (stack->size == 0)
         return nullptr;
@@ -339,6 +355,10 @@ size_t createDefinition(Stack *stack,
                         Node *definition_node,
                         Definition *definition)
 {
+    CHECK_NULLPTR_ERROR(stack, STACK_NULLPTR)
+    CHECK_NULLPTR_ERROR(definition_node, NODE_IS_NULLPTR)
+    CHECK_NULLPTR_ERROR(definition, STRING_IS_NULLPTR)
+
     Elem_t stackValue = 0;
     Node *candidate_definition_node = nullptr;
 
@@ -372,6 +392,7 @@ size_t pushPointersToStack(Node *node, Stack *stack, Val_t value)
 {
     CHECK_NULLPTR_ERROR(node, NODE_IS_NULLPTR)
     CHECK_NULLPTR_ERROR(stack, STACK_NULLPTR)
+    CHECK_NULLPTR_ERROR(value, STRING_IS_NULLPTR)
 
     Elem_t stackValue = 0;
 
@@ -386,9 +407,9 @@ size_t pushPointersToStack(Node *node, Stack *stack, Val_t value)
         pushPointersToStack(node->right, stack, value);
 }
 
-void outputText(const char *text, ...)
+size_t outputText(const char *text, ...)
 {
-    assert(text != nullptr);
+    CHECK_NULLPTR_ERROR(text, STRING_IS_NULLPTR)
 
     va_list args = {};
 
@@ -396,7 +417,7 @@ void outputText(const char *text, ...)
     vprintf(text, args);
     va_end(args);
     if (!VOICE_OUTPUT)
-        return;
+        return TREE_NO_ERRORS;
 
     va_start(args, text);
     char commandFormatString[BUFFER_SIZE] = "";
@@ -423,4 +444,5 @@ void outputText(const char *text, ...)
             command[i] = ' ';
     }
     system(command);
+    return TREE_NO_ERRORS;
 }
