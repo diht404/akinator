@@ -188,43 +188,17 @@ size_t parseNode(Tree *tree,
     {
         if (**readPtr == '}' or **readPtr == EOF)
         {
-            if (isToken > 0)
+            if (isToken)
             {
-                Node *new_node = nullptr;
-                if (node == tree->root and tree->size == 0)
-                    new_node = tree->root;
-                else
-                    new_node = (Node *) calloc(1, sizeof(Node));
-
-                new_node->left = nullptr;
-                new_node->right = nullptr;
-
-                if (tree->root->value != nullptr)
-                {
-                    if (node->left == nullptr)
-                        node->left = new_node;
-                    else if (node->right == nullptr)
-                        node->right = new_node;
-                    else
-                        fprintf(stderr, "Both is not NULLPTR\n");
-                }
-
-                if (*startTokenPtr == '\"')
-                    startTokenPtr++;
-                if (*endTokenPtr == '\"')
-                    endTokenPtr--;
-
-                new_node->value =
-                    (char *) calloc(endTokenPtr - startTokenPtr + 1,
-                                    sizeof(new_node->value[0]));
-                CHECK_NULLPTR_ERROR(new_node->value,
-                                    TREE_CANT_ALLOCATE_MEMORY)
-                memcpy(new_node->value,
-                       startTokenPtr,
-                       endTokenPtr - startTokenPtr + 1);
-                tree->size++;
-
                 isToken = false;
+
+                Node *new_node = nullptr;
+                createNode(&new_node,
+                           tree,
+                           node,
+                           &startTokenPtr,
+                           &endTokenPtr);
+
                 if (node->right != nullptr)
                     break;
             }
@@ -232,39 +206,16 @@ size_t parseNode(Tree *tree,
         }
         else if (**readPtr == '{')
         {
-            if (isToken > 0)
+            if (isToken)
             {
-                Node *new_node = nullptr;
-                if (node == tree->root and tree->size == 0)
-                    new_node = tree->root;
-                else
-                    new_node = (Node *) calloc(1, sizeof(Node));
                 isToken = false;
 
-                if (tree->root->value != nullptr)
-                {
-                    if (node->left == nullptr)
-                        node->left = new_node;
-                    else if (node->right == nullptr)
-                        node->right = new_node;
-                    else
-                        fprintf(stderr, "Both is not NULLPTR\n");
-                }
-
-                if (*startTokenPtr == '\"')
-                    startTokenPtr++;
-                if (*endTokenPtr == '\"')
-                    endTokenPtr--;
-
-                new_node->value =
-                    (char *) calloc(endTokenPtr - startTokenPtr + 1,
-                                    sizeof(new_node->value[0]));
-                CHECK_NULLPTR_ERROR(new_node->value,
-                                    TREE_CANT_ALLOCATE_MEMORY)
-                memcpy(new_node->value,
-                       startTokenPtr,
-                       endTokenPtr - startTokenPtr + 1);
-                tree->size++;
+                Node *new_node = nullptr;
+                createNode(&new_node,
+                           tree,
+                           node,
+                           &startTokenPtr,
+                           &endTokenPtr);
 
                 error = parseNode(tree,
                                   new_node,
@@ -290,6 +241,60 @@ size_t parseNode(Tree *tree,
         }
     }
     return TREE_NO_ERRORS;
+}
+
+size_t createNode(Node **new_node,
+                  Tree *tree,
+                  Node *node,
+                  char **startTokenPtr,
+                  char **endTokenPtr)
+{
+    if (node == tree->root and tree->size == 0)
+        *new_node = tree->root;
+    else
+        *new_node = (Node *) calloc(1, sizeof(Node));
+    nodeCtor(*new_node);
+
+    if (tree->root->value != nullptr)
+        createNoRootNode(node, *new_node);
+
+    setNodeValue(tree,
+                 *new_node,
+                 startTokenPtr,
+                 endTokenPtr);
+    tree->size++;
+}
+
+size_t setNodeValue(Tree *tree,
+                    Node *new_node,
+                    char **startTokenPtr,
+                    char **endTokenPtr)
+{
+
+    if (**startTokenPtr == '\"')
+        (*startTokenPtr)++;
+    if (**endTokenPtr == '\"')
+        (*endTokenPtr)--;
+
+    new_node->value =
+        (char *) calloc(*endTokenPtr - *startTokenPtr + 1,
+                        sizeof(new_node->value[0]));
+    CHECK_NULLPTR_ERROR(new_node->value,
+                        TREE_CANT_ALLOCATE_MEMORY)
+    memcpy(new_node->value,
+           *startTokenPtr,
+           *endTokenPtr - *startTokenPtr + 1);
+}
+
+size_t createNoRootNode(Node *node, Node *new_node)
+{
+    if (node->left == nullptr)
+        node->left = new_node;
+    else if (node->right == nullptr)
+        node->right = new_node;
+    else
+        fprintf(stderr,
+                "Both is not NULLPTR\n");
 }
 
 size_t insertNode(Node *node,

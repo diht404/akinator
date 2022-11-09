@@ -5,7 +5,7 @@ int main()
     treeClearGraphLogFile();
     treeSetLogFile();
 
-    enableVoiceOutput();
+//    enableVoiceOutput();
 
     Tree tree = {};
     treeCtor(&tree);

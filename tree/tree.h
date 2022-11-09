@@ -132,6 +132,45 @@ size_t parseNode(Tree *tree,
                  long lenOfFile);
 
 /**
+ * @brief creates node from text buffer
+ *
+ * @param new_node node to create
+ * @param tree tree of nodes
+ * @param node node to insert after
+ * @param startTokenPtr start pointer to value
+ * @param endTokenPtr end pointer to value
+ * @return error code
+ */
+size_t createNode(Node **new_node,
+                  Tree *tree,
+                  Node *node,
+                  char **startTokenPtr,
+                  char **endTokenPtr);
+
+/**
+ * @brief sets value of node
+ *
+ * @param tree tree with nodes
+ * @param new_node node to set value
+ * @param startTokenPtr start pointer to value
+ * @param endTokenPtr end pointer to value
+ * @return error code
+ */
+size_t setNodeValue(Tree *tree,
+                    Node *new_node,
+                    char **startTokenPtr,
+                    char **endTokenPtr);
+
+/**
+ * @brief creates node if node is not root
+ *
+ * @param node node to create after
+ * @param new_node new node to create
+ * @return
+ */
+size_t createNoRootNode(Node *node, Node *new_node);
+
+/**
  * @brief inserts node
  *
  * @param node node to change with delimiter value and

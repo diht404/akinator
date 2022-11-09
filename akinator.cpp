@@ -22,13 +22,13 @@ size_t selectTask(Tree *tree)
     {
         int task = 0;
 
-        outputText("Please, select a task:\n"
-                   "0 exit.\n"
-                   "1 guessing.\n"
-                   "2 definition.\n"
-                   "3 comparison.\n"
-                   "4 dump.\n"
-                   "5 save changes.\n");
+        outputText("Please, select a task:\n");
+        printf("0 exit.\n"
+               "1 guessing.\n"
+               "2 definition.\n"
+               "3 comparison.\n"
+               "4 dump.\n"
+               "5 save changes.\n");
 
         int correct = scanf("%d", &task);
         int readCount = 1;
@@ -56,6 +56,10 @@ size_t selectTask(Tree *tree)
             case 1:
             {
                 treeGuessing(tree);
+                treeDump(tree);
+                FILE *fp = fopen(AKINATOR_FILE, "w");
+                treeSaveToFile(tree, fp);
+                fclose(fp);
                 break;
             }
             case 2:

@@ -1,6 +1,6 @@
 { Alive 
     { Cat 
-        { Human
+        { Human 
             { catgirl }
             { 1.5 }
         }
