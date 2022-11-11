@@ -179,8 +179,6 @@ size_t parseNode(Tree *tree,
     CHECK_NULLPTR_ERROR(buffer, STRING_IS_NULLPTR)
     CHECK_NULLPTR_ERROR(readPtr, STRING_IS_NULLPTR)
 
-    size_t error = TREE_NO_ERRORS;
-
     bool isToken = false;
     char *startTokenPtr = nullptr;
     char *endTokenPtr = nullptr;
@@ -188,58 +186,111 @@ size_t parseNode(Tree *tree,
     {
         if (**readPtr == '}' or **readPtr == EOF)
         {
-            if (isToken)
-            {
-                isToken = false;
-
-                Node *new_node = nullptr;
-                createNode(&new_node,
-                           tree,
-                           node,
-                           &startTokenPtr,
-                           &endTokenPtr);
-
-                if (node->right != nullptr)
-                    break;
-            }
-            (*readPtr)++;
+            bool break_while = processRightBracket(
+                &isToken, tree, node, &startTokenPtr, &endTokenPtr, readPtr);
+            if (break_while) break;
         }
         else if (**readPtr == '{')
         {
-            if (isToken)
-            {
-                isToken = false;
-
-                Node *new_node = nullptr;
-                createNode(&new_node,
-                           tree,
-                           node,
-                           &startTokenPtr,
-                           &endTokenPtr);
-
-                error = parseNode(tree,
-                                  new_node,
-                                  buffer,
-                                  readPtr,
-                                  lenOfFile);
-
-                if (error)
-                    return error;
-            }
-            (*readPtr)++;
+            size_t error = processLeftBracket(
+                &isToken, tree, node, &startTokenPtr,
+                &endTokenPtr, readPtr, buffer, lenOfFile);
+            if (error) return error;
         }
         else
         {
-            if (!isToken and **readPtr != ' ' and **readPtr != '\n')
-            {
-                startTokenPtr = *readPtr;
-                isToken = true;
-            }
-            if (**readPtr != ' ' and **readPtr != '\n')
-                endTokenPtr = *readPtr;
-            (*readPtr)++;
+            size_t error = processToken(&isToken, readPtr, &startTokenPtr, &endTokenPtr);
+            if (error) return error;
         }
     }
+    return TREE_NO_ERRORS;
+}
+
+bool processRightBracket(bool *isToken,
+                         Tree *tree,
+                         Node *node,
+                         char **startTokenPtr,
+                         char **endTokenPtr,
+                         char **readPtr)
+{
+    CHECK_NULLPTR_ERROR(tree, TREE_IS_NULLPTR)
+    CHECK_NULLPTR_ERROR(node, NODE_IS_NULLPTR)
+    CHECK_NULLPTR_ERROR(startTokenPtr, STRING_IS_NULLPTR)
+    CHECK_NULLPTR_ERROR(*startTokenPtr, STRING_IS_NULLPTR)
+    CHECK_NULLPTR_ERROR(endTokenPtr, STRING_IS_NULLPTR)
+    CHECK_NULLPTR_ERROR(*endTokenPtr, STRING_IS_NULLPTR)
+    CHECK_NULLPTR_ERROR(readPtr, STRING_IS_NULLPTR)
+
+    if (*isToken)
+    {
+        *isToken = false;
+
+        Node *new_node = nullptr;
+        createNode(&new_node, tree, node, startTokenPtr, endTokenPtr);
+
+        if (node->right != nullptr)
+            return true;
+    }
+    (*readPtr)++;
+    return false;
+}
+
+size_t processLeftBracket(bool *isToken,
+                          Tree *tree,
+                          Node *node,
+                          char **startTokenPtr,
+                          char **endTokenPtr,
+                          char **readPtr,
+                          char **buffer,
+                          long lenOfFile)
+{
+    CHECK_NULLPTR_ERROR(tree, TREE_IS_NULLPTR)
+    CHECK_NULLPTR_ERROR(node, NODE_IS_NULLPTR)
+    CHECK_NULLPTR_ERROR(startTokenPtr, STRING_IS_NULLPTR)
+    CHECK_NULLPTR_ERROR(*startTokenPtr, STRING_IS_NULLPTR)
+    CHECK_NULLPTR_ERROR(endTokenPtr, STRING_IS_NULLPTR)
+    CHECK_NULLPTR_ERROR(*endTokenPtr, STRING_IS_NULLPTR)
+    CHECK_NULLPTR_ERROR(readPtr, STRING_IS_NULLPTR)
+    CHECK_NULLPTR_ERROR(*readPtr, STRING_IS_NULLPTR)
+    CHECK_NULLPTR_ERROR(buffer, STRING_IS_NULLPTR)
+    CHECK_NULLPTR_ERROR(*buffer, STRING_IS_NULLPTR)
+
+    size_t error = TREE_NO_ERRORS;
+    if (*isToken)
+    {
+        *isToken = false;
+        Node *new_node = nullptr;
+        error = createNode(&new_node, tree, node, startTokenPtr, endTokenPtr);
+        if (error) return error;
+
+        error = parseNode(tree,new_node, buffer, readPtr, lenOfFile);
+        if (error) return error;
+    }
+    (*readPtr)++;
+    return error;
+}
+
+size_t processToken(bool *isToken,
+                    char **readPtr,
+                    char **startTokenPtr,
+                    char **endTokenPtr)
+{
+    CHECK_NULLPTR_ERROR(readPtr, STRING_IS_NULLPTR)
+    CHECK_NULLPTR_ERROR(*readPtr, STRING_IS_NULLPTR)
+    CHECK_NULLPTR_ERROR(startTokenPtr, STRING_IS_NULLPTR)
+    CHECK_NULLPTR_ERROR(*startTokenPtr, STRING_IS_NULLPTR)
+    CHECK_NULLPTR_ERROR(endTokenPtr, STRING_IS_NULLPTR)
+    CHECK_NULLPTR_ERROR(*endTokenPtr, STRING_IS_NULLPTR)
+
+    if (!*isToken and **readPtr != ' ' and **readPtr != '\n')
+    {
+        *startTokenPtr = *readPtr;
+        *isToken = true;
+    }
+    if (**readPtr != ' ' and **readPtr != '\n')
+        *endTokenPtr = *readPtr;
+    (*readPtr)++;
+
     return TREE_NO_ERRORS;
 }
 
@@ -249,6 +300,15 @@ size_t createNode(Node **new_node,
                   char **startTokenPtr,
                   char **endTokenPtr)
 {
+    CHECK_NULLPTR_ERROR(new_node, NODE_IS_NULLPTR)
+    CHECK_NULLPTR_ERROR(tree, TREE_IS_NULLPTR)
+    CHECK_NULLPTR_ERROR(node, NODE_IS_NULLPTR)
+    CHECK_NULLPTR_ERROR(startTokenPtr, STRING_IS_NULLPTR)
+    CHECK_NULLPTR_ERROR(*startTokenPtr, STRING_IS_NULLPTR)
+    CHECK_NULLPTR_ERROR(endTokenPtr, STRING_IS_NULLPTR)
+    CHECK_NULLPTR_ERROR(*endTokenPtr, STRING_IS_NULLPTR)
+
+    size_t error = TREE_NO_ERRORS;
     if (node == tree->root and tree->size == 0)
         *new_node = tree->root;
     else
@@ -256,13 +316,13 @@ size_t createNode(Node **new_node,
     nodeCtor(*new_node);
 
     if (tree->root->value != nullptr)
-        createNoRootNode(node, *new_node);
+        error = createNoRootNode(node, *new_node);
+    if  (error) return error;
 
-    setNodeValue(tree,
-                 *new_node,
-                 startTokenPtr,
-                 endTokenPtr);
+    error = setNodeValue(tree, *new_node, startTokenPtr, endTokenPtr);
     tree->size++;
+
+    return error;
 }
 
 size_t setNodeValue(Tree *tree,
@@ -270,6 +330,12 @@ size_t setNodeValue(Tree *tree,
                     char **startTokenPtr,
                     char **endTokenPtr)
 {
+    CHECK_NULLPTR_ERROR(tree, TREE_IS_NULLPTR)
+    CHECK_NULLPTR_ERROR(new_node, NODE_IS_NULLPTR)
+    CHECK_NULLPTR_ERROR(startTokenPtr, STRING_IS_NULLPTR)
+    CHECK_NULLPTR_ERROR(*startTokenPtr, STRING_IS_NULLPTR)
+    CHECK_NULLPTR_ERROR(endTokenPtr, STRING_IS_NULLPTR)
+    CHECK_NULLPTR_ERROR(*endTokenPtr, STRING_IS_NULLPTR)
 
     if (**startTokenPtr == '\"')
         (*startTokenPtr)++;
@@ -284,10 +350,14 @@ size_t setNodeValue(Tree *tree,
     memcpy(new_node->value,
            *startTokenPtr,
            *endTokenPtr - *startTokenPtr + 1);
+    return TREE_NO_ERRORS;
 }
 
 size_t createNoRootNode(Node *node, Node *new_node)
 {
+    CHECK_NULLPTR_ERROR(node, NODE_IS_NULLPTR)
+    CHECK_NULLPTR_ERROR(new_node, NODE_IS_NULLPTR)
+
     if (node->left == nullptr)
         node->left = new_node;
     else if (node->right == nullptr)

@@ -131,6 +131,27 @@ size_t parseNode(Tree *tree,
                  char **readPtr,
                  long lenOfFile);
 
+bool processRightBracket(bool *isToken,
+                         Tree *tree,
+                         Node *node,
+                         char **startTokenPtr,
+                         char **endTokenPtr,
+                         char **readPtr);
+
+size_t processLeftBracket(bool *isToken,
+                          Tree *tree,
+                          Node *node,
+                          char **startTokenPtr,
+                          char **endTokenPtr,
+                          char **readPtr,
+                          char **buffer,
+                          long lenOfFile);
+
+size_t processToken(bool *isToken,
+                    char **readPtr,
+                    char **startTokenPtr,
+                    char **endTokenPtr);
+
 /**
  * @brief creates node from text buffer
  *
@@ -193,5 +214,9 @@ size_t insertNode(Node *node,
         if (value == nullptr)             \
             return error;                 \
     }
+
+#define RETURN_IF_ERROR(error) \
+    if (error)                 \
+        return error;
 
 #endif //AKINATOR__TREE_H
