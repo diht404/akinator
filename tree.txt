@@ -7,7 +7,7 @@
         { student of DBMP }
     }
     { DGAP 
-        { Expelled 
+        { Expelled
             { In the army }
             { Transferred to another department }
         }

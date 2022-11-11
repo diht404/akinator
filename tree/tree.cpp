@@ -184,18 +184,18 @@ size_t parseNode(Tree *tree,
     char *endTokenPtr = nullptr;
     while (*readPtr < *buffer + lenOfFile)
     {
-        if (**readPtr == '}' or **readPtr == EOF)
+        if (**readPtr == '{')
         {
-            bool break_while = processRightBracket(
-                &isToken, tree, node, &startTokenPtr, &endTokenPtr, readPtr);
-            if (break_while) break;
-        }
-        else if (**readPtr == '{')
-        {
-            size_t error = processLeftBracket(
+            size_t error = processBeginNode(
                 &isToken, tree, node, &startTokenPtr,
                 &endTokenPtr, readPtr, buffer, lenOfFile);
             if (error) return error;
+        }
+        else if (**readPtr == '}' or **readPtr == EOF)
+        {
+            bool break_while = processEndNode(
+                &isToken, tree, node, &startTokenPtr, &endTokenPtr, readPtr);
+            if (break_while) break;
         }
         else
         {
@@ -206,12 +206,12 @@ size_t parseNode(Tree *tree,
     return TREE_NO_ERRORS;
 }
 
-bool processRightBracket(bool *isToken,
-                         Tree *tree,
-                         Node *node,
-                         char **startTokenPtr,
-                         char **endTokenPtr,
-                         char **readPtr)
+bool processEndNode(bool *isToken,
+                    Tree *tree,
+                    Node *node,
+                    char **startTokenPtr,
+                    char **endTokenPtr,
+                    char **readPtr)
 {
     CHECK_NULLPTR_ERROR(tree, TREE_IS_NULLPTR)
     CHECK_NULLPTR_ERROR(node, NODE_IS_NULLPTR)
@@ -235,14 +235,14 @@ bool processRightBracket(bool *isToken,
     return false;
 }
 
-size_t processLeftBracket(bool *isToken,
-                          Tree *tree,
-                          Node *node,
-                          char **startTokenPtr,
-                          char **endTokenPtr,
-                          char **readPtr,
-                          char **buffer,
-                          long lenOfFile)
+size_t processBeginNode(bool *isToken,
+                        Tree *tree,
+                        Node *node,
+                        char **startTokenPtr,
+                        char **endTokenPtr,
+                        char **readPtr,
+                        char **buffer,
+                        long lenOfFile)
 {
     CHECK_NULLPTR_ERROR(tree, TREE_IS_NULLPTR)
     CHECK_NULLPTR_ERROR(node, NODE_IS_NULLPTR)

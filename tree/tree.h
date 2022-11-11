@@ -131,21 +131,21 @@ size_t parseNode(Tree *tree,
                  char **readPtr,
                  long lenOfFile);
 
-bool processRightBracket(bool *isToken,
-                         Tree *tree,
-                         Node *node,
-                         char **startTokenPtr,
-                         char **endTokenPtr,
-                         char **readPtr);
+bool processEndNode(bool *isToken,
+                    Tree *tree,
+                    Node *node,
+                    char **startTokenPtr,
+                    char **endTokenPtr,
+                    char **readPtr);
 
-size_t processLeftBracket(bool *isToken,
-                          Tree *tree,
-                          Node *node,
-                          char **startTokenPtr,
-                          char **endTokenPtr,
-                          char **readPtr,
-                          char **buffer,
-                          long lenOfFile);
+size_t processBeginNode(bool *isToken,
+                        Tree *tree,
+                        Node *node,
+                        char **startTokenPtr,
+                        char **endTokenPtr,
+                        char **readPtr,
+                        char **buffer,
+                        long lenOfFile);
 
 size_t processToken(bool *isToken,
                     char **readPtr,
