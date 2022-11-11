@@ -215,8 +215,4 @@ size_t insertNode(Node *node,
             return error;                 \
     }
 
-#define RETURN_IF_ERROR(error) \
-    if (error)                 \
-        return error;
-
 #endif //AKINATOR__TREE_H
